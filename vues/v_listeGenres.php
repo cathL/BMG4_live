@@ -6,25 +6,13 @@
   * @package default
  */
 
-    session_start();
     // inclure les bibliothèques de fonctions
     require_once 'include/_config.inc.php';
     require_once 'include/_data.lib.php';
 ?>
-
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>BMG - Bibliothèque municipale de Groville</title>
-        <meta charset="UTF-8" />
-        <link rel="stylesheet" type="text/css" href="styles/screen.css" />
-    </head>
-    <body>
-        <?php include("include/header.php") ; ?>
-        <?php include("include/menu.php") ; ?>
         <div id="content">
             <h2>Gestion des genres</h2>
-            <a href="ajouterGenre.php" title="Ajouter">
+            <a href="index.php?uc=gererGenres&action=ajouterGenre" title="Ajouter">
                 Ajouter un genre
             </a>
             <div class="corps-form">
@@ -33,15 +21,7 @@
                     <legend>Genres</legend>
                     <div id="object-list">
                         <?php
-                        // ouvrir une connexion
-                        $cnx = connectDB();
-                        // récupérer les genres
-                        $strSQL = "SELECT code_genre as Code, "
-                            . "lib_genre as 'Libellé' "
-                            . "FROM genre ";
-                        $lesGenres = getRows($cnx, $strSQL);
-                        // afficher le nombre de genres      
-                        $nbGenres = $lesGenres->rowCount();
+                        
                         echo '<span>'.$nbGenres.' genre(s) trouvé(s)'
                                 . '</span><br /><br />';
                         // afficher un tableau des genres
@@ -56,7 +36,7 @@
                             echo '</tr>';
                             // affichage des lignes du tableau
                             $n = 0;
-                            foreach($lesGenres as $ligne)  {                                                            
+                            foreach($lesGenres as $unGenre)  {                                                            
                                 if (($n % 2) == 1) {
                                     echo '<tr class="impair">';
                                 }
@@ -64,10 +44,10 @@
                                     echo '<tr class="pair">';
                                 }
                                 // afficher la colonne 1 dans un hyperlien
-                                echo '<td><a href="afficherGenre.php?id='
-                                    .$ligne[0].'">'.$ligne[0].'</a></td>';
+                                 echo '<td><a href="index.php?uc=gererGenre&action=consulterGenre&id='
+                                    .$unGenre->getCode().'">'.$unGenre->getCode().'</a></td>';
                                 // afficher les colonnes suivantes
-                                echo '<td>'.$ligne[1].'</td>';
+                                echo '<td>'.$unGenre->getLibelle().'</td>';
                                 echo '</tr>';
                                 $n++;
                             }
@@ -75,14 +55,10 @@
                         }
                         else {			
                             echo "Aucun genre trouvé !";
-                        }		
-                        $lesGenres->closeCursor();
-                        disconnectDB($cnx);
+                        }		                       
                         ?>
                     </div>
                 </fieldset>
             </div>
         </div>          
-        <?php include("include/footer.php") ; ?>
-    </body>
-</html>
+        

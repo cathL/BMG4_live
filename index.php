@@ -17,12 +17,13 @@
     include("vues/_v_header.php");
     include("vues/_v_menu.php");
     
-    if (isset($uc)) {
+    if (isset($_REQUEST['uc'])) {
         $uc = $_REQUEST['uc']; 
     }
     else {
         $uc = 'home';
-}
+    }
+    
     switch ($uc) {
         case 'gererGenres' : include 'controleurs/c_gererGenres.php'; break;
         case 'gererAuteurs' : include 'controleurs/c_gererAureurs.php'; break;
