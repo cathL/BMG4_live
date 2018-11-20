@@ -73,5 +73,57 @@ class GenreDal
         }
         return $res;
     }
+    
+    /**
+     * supprime un genre
+     * @param   int $code : le code du genre à supprimer
+     * @return le nombre de lignes affectées
+    */      
+    public static function delGenre($code) {
+        $cnx = new PdoDao();
+        $qry = 'DELETE FROM genre WHERE code_genre = ?';
+        $res = $cnx->execSQL($qry,array($code));
+        if (is_a($res,'PDOException')) {
+            return PDO_EXCEPTION_VALUE;
+        }
+        return $res;
+    }
+    
+    /**
+    * calcule le nombre d'ouvrages pour un genre
+    * @param type $code : le code du genre
+    * @return le nombre d'ouvrages du genre
+    */ 
+    public static function countOuvragesGenre($code){
+        $cnx = new PdoDao();
+        $qry = 'SELECT COUNT(*) FROM ouvrage WHERE code_genre = ?';
+        $res = $cnx->getValue($qry,array($code));
+        if (is_a($res,'PDOException')) {
+            return PDO_EXCEPTION_VALUE;
+        }
+        return $res;
+    }
+    
+     /**
+     * modifie un genre
+     * @param   int     $code
+     * @param   string  $libelle
+     * @return  le nombre de lignes affectées
+    */      
+    public static function setGenre($unGenre) {
+        $cnx = new PdoDao();
+        $qry = 'UPDATE genre SET lib_genre = ? WHERE code_genre = ?';
+        $res = $cnx->execSQL($qry,array(
+                $unGenre->getLibelle(),
+                $unGenre->getCode()
+            ));
+        if (is_a($res,'PDOException')) {
+            return PDO_EXCEPTION_VALUE;
+        }
+        return $res;
+    }
+
+
+    
 
 }
