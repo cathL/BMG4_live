@@ -1,4 +1,5 @@
 <div id="content">
+    <!-- commentaire : C. Lebeau --> 
     <h2><?php echo $titrePage ?></h2>
     <?php
     // affichage du lien de retour
